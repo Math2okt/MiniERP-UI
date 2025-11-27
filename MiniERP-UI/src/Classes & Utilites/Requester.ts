@@ -5,7 +5,7 @@ export class Requester {
 
     BASE_URL: string = "https://minierp.rbnetto.dev/api"
     TOKEN_ENDPOINT: string = "/token/"
-    TOKEN_REFRESH_ENDPOINT: string = "/token/refresh"
+    TOKEN_REFRESH_ENDPOINT: string = "/token/refresh/"
     MAX_REFRESH_RETRIES = 1;
 
     getLocalSTToken(): string {
@@ -65,10 +65,10 @@ export class Requester {
 
 
 
-    async post<T>(endpoint: string, body: string, refreshRetries: number = 0): Promise<T> {
+    async post<T>(endpoint: string, body: string, refreshRetries: number = 0, token: boolean = true): Promise<T> {
         const response = await fetch(this.BASE_URL + endpoint, {
             method: "POST",
-            headers: this.getHeaders(),
+            headers: token ? this.getHeaders() : { "Content-Type": "application/json" },
             body: body
         })
 
