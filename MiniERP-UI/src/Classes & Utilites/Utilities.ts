@@ -26,9 +26,17 @@ function loadData<T = any>(key: string = "token"): T {
         return [] as T;
     }
 }
-
+function throwNotification(text:string, success:boolean, duration:number = 3000) {
+    const msg :HTMLElement | null = getDOMElement("notification");
+    msg!.textContent = text;
+    msg!.className = `position-fixed top-0 start-50 translate-middle-x p-3 rounded shadow text-white ${success ? "bg-success" : "bg-danger"}`;
+    msg!.style.display = "block";
+    setTimeout(() => {
+        msg!.style.display = "none";
+    }, duration);
+}
 // Export
-export default { getDOMElement, createDOMElement, saveData, loadData };
+export default { getDOMElement, createDOMElement, saveData, loadData,throwNotification };
 
 // function addData(key: string, data: string) {
 //     let collection = loadData(key);

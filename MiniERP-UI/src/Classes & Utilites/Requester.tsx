@@ -1,7 +1,7 @@
 import Utilities from "./Utilities"
 
 
-class Requester {
+export class Requester {
 
     BASE_URL: string = "https://minierp.rbnetto.dev/api"
     TOKEN_ENDPOINT: string = "/token/"
