@@ -16,7 +16,7 @@ class Requester {
         return Utilities.loadData("refresh_token");
     }
 
-    getHeaders(): Record<string, string> {
+    getHeaders() {
         return {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + this.getLocalSTToken()
