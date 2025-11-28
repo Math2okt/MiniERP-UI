@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ProductsService } from "../ClassesAndUtilities/ProductsService";
-import type { Product } from "../ClassesAndUtilities/ProductsService";
+import type { Product } from "../Types/Product";
 import Utilities from "../ClassesAndUtilities/Utilities";
 
 
@@ -58,7 +58,6 @@ export const ProductosPage = () => {
     const handleSaveEdit = async () => {
         if (!editingProduct) return;
         try {
-            // asegurarnos de que stock sea number
             const payload = { ...formData } as any;
             if (payload.stock_quantity !== undefined) payload.stock_quantity = Number(payload.stock_quantity);
             await ProductsService.updateProduct(editingProduct.id, payload);
@@ -76,7 +75,6 @@ export const ProductosPage = () => {
         try {
             const payload = { ...formData } as any;
             if (payload.stock_quantity !== undefined) payload.stock_quantity = Number(payload.stock_quantity);
-            // price se envía como string (como estaba antes)
             await ProductsService.createProduct(payload);
             setShowModal(false);
             setIsCreating(false);

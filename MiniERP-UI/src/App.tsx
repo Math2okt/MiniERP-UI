@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
 import LoginPanel from "./Pages/LoginPanel";
-import ProductosPage from "./Pages/ProductosPage";
-import ClientesPage from "./Pages/ClientesPage";
+import ProductosPage from "./Pages/ProductsPage";
+import ClientesPage from "./Pages/ClientsPage";
 import Navbar from "./Components/Navbar";
 import { useState } from "react";
 import type { User } from "./Types/User";

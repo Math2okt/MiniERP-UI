@@ -1,18 +1,8 @@
 import { Requester } from "./Requester";
 import Utilities from "./Utilities";
+import type { Product } from "../Types/Product";
 
 const requester = new Requester();
-
-export interface Product {
-    id: number;
-    name: string;
-    category: number;
-    price: string;
-    cost_price: string;
-    stock_quantity: number;
-    min_stock_level: number;
-    max_stock_level: number;
-}
 
 export class ProductsService {
     static async listProducts(): Promise<Product[]> {
