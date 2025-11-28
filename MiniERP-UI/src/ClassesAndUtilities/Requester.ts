@@ -83,5 +83,27 @@ export class Requester {
 
         const data: T = await response.json();
         return data;
+
+        
+    }
+
+    async put<T>(endpoint: string, body: string, refreshRetries: number = 0, token: boolean = true): Promise<T> {
+        const response = await fetch(this.BASE_URL + endpoint, {
+            method: "PUT",
+            headers: token ? this.getHeaders() : { "Content-Type": "application/json" },
+            body: body
+        })
+
+        if (response.status === 401 && refreshRetries < this.MAX_REFRESH_RETRIES) {
+            const refreshed = await this.refreshToken();
+            if (refreshed) return this.put(endpoint, body, refreshRetries + 1);
+            throw new Error("Error en reautenticación, token inválido o expirado");
+        }
+        if (!response.ok) {
+            throw new Error(`Error en PUT ${endpoint}, ${body}: ${response.status} ${response.statusText}`);
+        }
+
+        const data: T = await response.json();
+        return data;
     }
 }

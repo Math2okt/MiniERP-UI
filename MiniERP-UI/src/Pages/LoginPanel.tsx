@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Utilities from "../Classes & Utilites/Utilities";
-import { Requester } from "../Classes & Utilites/Requester";
+import Utilities from "../ClassesAndUtilities/Utilities";
+import { Requester } from "../ClassesAndUtilities/Requester";
 import type { LoginResponse } from "../Types/LoginResponse";
 import type { User } from "../Types/User";
 import { useState } from "react";
