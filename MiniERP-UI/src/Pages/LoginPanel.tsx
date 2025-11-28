@@ -12,7 +12,7 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,7 +20,9 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
     console.log(body)
     const requester = new Requester();
     try {
+      setLoading(true)
       const response = await requester.post<LoginResponse>("/users/users/login/", JSON.stringify(body), undefined, false);
+      setLoading(false)
       //mandamos el accesstoken y refreshtoken al localst
       Utilities.saveData("access_token", response.access_token)
       Utilities.saveData("refresh_token", response.refresh_token)
@@ -30,8 +32,10 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
       navigate("/productos");
     } catch {
       Utilities.throwNotification("Usuario o contraseña incorrectos", false)
+      setLoading(false)
     }
   }
+  if(loading) return <div>Iniciando Sesion... Por favor espere</div>
   return (
     <div>
       <h1>Login</h1>
