@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProductsService } from "../ClassesAndUtilities/ProductsService";
 import type { Product } from "../ClassesAndUtilities/ProductsService";
+import Utilities from "../ClassesAndUtilities/Utilities";
 
 
 export const ProductosPage = () => {
@@ -46,9 +47,10 @@ export const ProductosPage = () => {
             try {
                 await ProductsService.deleteProduct(id);
                 setProducts(products.filter(p => p.id !== id));
-                alert("Producto eliminado exitosamente");
+                Utilities.throwNotification("Producto eliminado exitosamente",true,3000);
             } catch (err: any) {
-                alert("Error al eliminar producto: " + err.message);
+                Utilities.throwNotification("Error al eliminar producto",false,4000);
+                console.error(err)
             }
         }
     };
@@ -63,9 +65,10 @@ export const ProductosPage = () => {
             setShowModal(false);
             setEditingProduct(null);
             await fetchProducts();
-            alert("Producto actualizado exitosamente");
+            Utilities.throwNotification("Producto actualizado exitosamente",true,2000);
         } catch (err: any) {
-            alert("Error al actualizar producto: " + err.message);
+            Utilities.throwNotification("Error al actualizar producto",false,4000);
+            console.error(err)
         }
     };
 
@@ -78,9 +81,10 @@ export const ProductosPage = () => {
             setShowModal(false);
             setIsCreating(false);
             await fetchProducts();
-            alert("Producto creado exitosamente");
+            Utilities.throwNotification("Producto creado exitosamente",true,3000);
         } catch (err: any) {
-            alert("Error al crear producto: " + err.message);
+            Utilities.throwNotification("Error al crear producto",false,4000);
+            console.error(error)
         }
     };
 

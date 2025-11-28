@@ -1,4 +1,5 @@
 import { Requester } from "./Requester";
+import Utilities from "./Utilities";
 
 const requester = new Requester();
 
@@ -24,15 +25,15 @@ export class ProductsService {
 
     static async lowStock(): Promise<Product[]> {
         const response = await requester.get<any>("/inventory/products/low_stock/");
-        
+
         if (Array.isArray(response)) {
             return response;
         }
-        
+
         if (response.results && Array.isArray(response.results)) {
             return response.results;
         }
-        
+
         return [];
     }
 
@@ -46,16 +47,18 @@ export class ProductsService {
         return await requester.post<Product>(`/inventory/products/`, body);
     }
 
-    static async deleteProduct(id: number): Promise<void> {
-        const response = await fetch(`https://minierp.rbnetto.dev/api/inventory/products/${id}/`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + new Requester().getLocalSTToken()
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error al eliminar producto: ${response.status} ${response.statusText}`);
+static async deleteProduct(id: number): Promise<void> {
+    try {
+        const success = await requester.delete(`/inventory/products/${id}/`);
+        if (success) {
+            Utilities.throwNotification("Producto eliminado correctamente", true, 3000);
+        } else {
+            Utilities.throwNotification("Error al eliminar el producto", false, 3000);
         }
+    } catch (error) {
+        console.error(error);
+        Utilities.throwNotification("Error al eliminar el producto", false, 3000);
     }
+}
+
 }

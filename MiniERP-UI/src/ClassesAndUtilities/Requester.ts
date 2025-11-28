@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import Utilities from "./Utilities"
 
 
@@ -92,11 +92,11 @@ export class Requester {
         if (response.status === 401 && refreshRetries < this.MAX_REFRESH_RETRIES) {
             const refreshed = await this.refreshToken();
             if (refreshed) return this.post(endpoint, body, refreshRetries + 1);
-              
-              Utilities.throwNotification("La sesion expiro",false,5000)
-              
+
+            Utilities.throwNotification("La sesion expiro", false, 5000)
+
             throw new Error("Error en reautenticación, token inválido o expirado");
-            
+
         }
         if (!response.ok) {
             throw new Error(`Error en POST ${endpoint}, ${body}: ${response.status} ${response.statusText}`);
@@ -126,5 +126,20 @@ export class Requester {
 
         const data: T = await response.json();
         return data;
+    }
+    async delete(endpoint: string, refreshRetries: number = 0): Promise<boolean> {
+        const response = await fetch(this.BASE_URL + endpoint, {
+            method: "DELETE",
+            headers: this.getHeaders()
+        })
+        if (response.status === 401 && refreshRetries < this.MAX_REFRESH_RETRIES) {
+            const refreshed = await this.refreshToken();
+            if (refreshed) return this.delete(endpoint, refreshRetries + 1);
+            throw new Error("Error en reautenticación, token inválido o expirado");
+        }
+        if (!response.ok) {
+            throw new Error(`Error en DELETE ${endpoint} ${response.status} ${response.statusText}`);
+        }
+        return response.ok
     }
 }
