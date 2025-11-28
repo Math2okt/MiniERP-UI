@@ -35,17 +35,21 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
       setLoading(false)
     }
   }
-  if(loading) return <div>Iniciando Sesion... Por favor espere</div>
+  if(loading) return<div className="min-h-screen flex items-center justify-center bg-lilaClaro text-black font-arimo text-xl">Iniciando Sesion... Por favor espere</div>
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input type="email" placeholder="Email" value={email}
-          onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Entrar</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-lila">
+      <div className="bg-menta px-8 py-10 rounded-xl shadow-xl w-full max-w-md">
+        <h1 className="text-5xl font-arimo font-bold text-gray-900 mb-6 text-center">Login</h1>
+        <form onSubmit={handleLogin} className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-4">
+            <input type="email" placeholder="Email" value={email}
+              onChange={(e) => setEmail(e.target.value)} className="w-full p-3 rounded-md bg-white text-gray placeholder-gray-400 focus:outline-none focus:ring-2 focus-ring-blue-500"/>
+            <input type="password" placeholder="Password" value={password}
+              onChange={(e) => setPassword(e.target.value)} className="w-full p-3 rounded-md bg-white text-gray placeholder-gray-400 focus:outline-none focus:ring-2 focus-ring-blue-500" />
+            <button type="submit" className="w-full py-3 rounded-md bg-celeste hover:bg-lavanda  text-white font-semibold transition shadow-md">Entrar</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

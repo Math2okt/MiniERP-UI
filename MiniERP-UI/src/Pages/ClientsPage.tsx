@@ -86,134 +86,154 @@ export const ClientesPage = () => {
         }
     }
 
-    if (loading) return <div>Cargando Clientes...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-lilaClaro text-black font-arimo text-xl">Cargando Clientes...</div>;
+    if (error) return <div className="min-h-screen flex items-center justify-center bg-lilaClaro text-black font-arimo text-xl">Error: {error}</div>;
     return (
-        <div>
-            <h1>Clientes del Sistema</h1>
-            <button className="btn btn-success" onClick={handleCreate}>Nuevo Cliente</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Activo</th>
-                        <th>Órdenes</th>
-                        <th>Creado</th>
-                        <th>Acciones</th>
-                    </tr>
+        <div className="min-h-screen bg-lilaClaro px-8 py-6">
+            <div className="flex justify-between items-center mb-6 w-full max-w-6xl mx-auto">
+            <h1 className="text-4xl m-0 font-arimo font-bold">Clientes</h1>
+            <button
+                className="px-4 py-2 rounded-lg font-semibold bg-celeste hover:bg-lavanda text-black"
+                onClick={handleCreate}
+            >
+                Nuevo Cliente
+            </button>
+            </div>
+
+
+            <div className="rounded-xl shadow-xl overflow-hidden w-full max-w-6xl mx-auto">
+            <table className="w-full">
+                <thead className="bg-menta text-black font-bold">
+                <tr>
+                    <th className="py-3 px-4 text-left">ID</th>
+                    <th className="py-3 px-4 text-left">Nombre</th>
+                    <th className="py-3 px-4 text-left">Email</th>
+                    <th className="py-3 px-4 text-left">Teléfono</th>
+                    <th className="py-3 px-4 text-left">Dirección</th>
+                    <th className="py-3 px-4 text-left">Activo</th>
+                    <th className="py-3 px-4 text-left">Órdenes</th>
+                    <th className="py-3 px-4 text-left">Creado</th>
+                    <th className="py-3 px-4 text-left">Acciones</th>
+                </tr>
                 </thead>
-                <tbody>
-                    {customers.map(c => (
-                        <tr key={c.id}>
-                            <td>{c.id}</td>
-                            <td>{c.name}</td>
-                            <td>{c.email}</td>
-                            <td>{c.phone}</td>
-                            <td>{c.address}</td>
-                            <td>{c.is_active ? "Sí" : "No"}</td>
-                            <td>{c.orders_count}</td>
-                            <td>{c.created_at}</td>
-                            <td>
-                                <button
-                                    className="btn btn-primary btn-sm me-2"
-                                    onClick={() => handleEdit(c)}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => handleDelete(c.id)}
-                                >
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+
+                <tbody className="bg-mentaClaro">
+                {customers.map(c => (
+                    <tr key={c.id} className="bg-mentaClaro border-b border-menta">
+                    <td className="py-3 px-4">{c.id}</td>
+                    <td className="py-3 px-4">{c.name}</td>
+                    <td className="py-3 px-4">{c.email}</td>
+                    <td className="py-3 px-4">{c.phone}</td>
+                    <td className="py-3 px-4">{c.address}</td>
+                    <td className="py-3 px-4">{c.is_active ? "Sí" : "No"}</td>
+                    <td className="py-3 px-4">{c.orders_count}</td>
+                    <td className="py-3 px-4">{c.created_at}</td>
+                    <td className="py-3 px-4">
+                        <button
+                        className="px-3 py-1 rounded bg-lila text-black font-medium hover:bg-lila/80 transition mr-2"
+                        onClick={() => handleEdit(c)}
+                        >
+                        Editar
+                        </button>
+                        <button
+                        className="px-3 py-1 rounded bg-red-400 text-white font-medium hover:bg-red-500 transition"
+                        onClick={() => handleDelete(c.id)}
+                        >
+                        Eliminar
+                        </button>
+                    </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
+            </div>
+
+            
             {showModal && (editingCustomer || isCreating) && (
-                <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">{isCreating ? 'Crear Cliente' : 'Editar Cliente'}</h5>
+
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+                        <h2 className="text-2xl font-bold mb-4 text-center">
+                            {isCreating ? "Crear Cliente" : "Editar Cliente"}
+                        </h2>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block font-semibold mb-1">Nombre</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    className="w-full border rounded px-3 py-2"
+                                    value={formData.name || ""}
+                                    onChange={handleFormChange}
+                                />
                             </div>
-                            <div className="modal-body">
-                                <div className="mb-3">
-                                    <label className="form-label">Nombre</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="name"
-                                        value={formData.name || ''}
-                                        onChange={handleFormChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Email</label>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        value={formData.email || ''}
-                                        onChange={handleFormChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Telefono</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="phone"
-                                        value={formData.phone || ''}
-                                        onChange={handleFormChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Direccion</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="address"
-                                        value={formData.address || ''}
-                                        onChange={handleFormChange}
-                                    />
-                                </div>
+
+                            <div>
+                                <label className="block font-semibold mb-1">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    className="w-full border rounded px-3 py-2"
+                                    value={formData.email || ""}
+                                    onChange={handleFormChange}
+                                />
                             </div>
-                            <div className="modal-footer">
+
+                            <div>
+                                <label className="block font-semibold mb-1">Teléfono</label>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    className="w-full border rounded px-3 py-2"
+                                    value={formData.phone || ""}
+                                    onChange={handleFormChange}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block font-semibold mb-1">Dirección</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    className="w-full border rounded px-3 py-2"
+                                    value={formData.address || ""}
+                                    onChange={handleFormChange}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end gap-3 mt-6">
+                            <button
+                                className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
+                                onClick={() => {
+                                    setShowModal(false);
+                                    setIsCreating(false);
+                                    setEditingCustomer(null);
+                                }}
+                            >
+                                Cancelar
+                            </button>
+
+                            {isCreating ? (
                                 <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => { setShowModal(false); setIsCreating(false); setEditingCustomer(null); }}
+                                    className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition"
+                                    onClick={handleCreateSave}
                                 >
-                                    Cancelar
+                                    Crear Cliente
                                 </button>
-                                {isCreating ? (
-                                    <button
-                                        type="button"
-                                        className="btn btn-success"
-                                        onClick={handleCreateSave}
-                                    >
-                                        Crear Cliente
-                                    </button>
-                                ) : (
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={handleSaveEdit}
-                                    >
-                                        Guardar Cambios
-                                    </button>
-                                )}
-                            </div>
+                            ) : (
+                                <button
+                                    className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                                    onClick={handleSaveEdit}
+                                >
+                                    Guardar Cambios
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
