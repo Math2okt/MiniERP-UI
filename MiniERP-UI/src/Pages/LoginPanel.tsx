@@ -20,12 +20,11 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
     console.log(body)
     const requester = new Requester();
     try {
-      console.log("Me intento loguear")
       const response = await requester.post<LoginResponse>("/users/users/login/", JSON.stringify(body), undefined, false);
       //mandamos el accesstoken y refreshtoken al localst
       Utilities.saveData("access_token", response.access_token)
       Utilities.saveData("refresh_token", response.refresh_token)
-      console.log("Log exitoso")
+      Utilities.saveData("current_user", response.user)
       Utilities.throwNotification("Logeado con éxito", true)
       setCurrentUser(response.user);
       navigate("/productos");

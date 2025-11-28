@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Utilities from "./Utilities"
 
 
@@ -7,14 +8,28 @@ export class Requester {
     TOKEN_ENDPOINT: string = "/token/"
     TOKEN_REFRESH_ENDPOINT: string = "/token/refresh/"
     MAX_REFRESH_RETRIES = 1;
-
     getLocalSTToken(): string {
-        return Utilities.loadData("access_token");
+        const token = Utilities.loadData("access_token");
+
+        if (!token || typeof token !== "string") {
+            console.warn("No se encontró el access_token en LocalStorage");
+            return "";
+        }
+
+        return token;
     }
 
     getRefreshToken(): string {
-        return Utilities.loadData("refresh_token");
+        const refresh = Utilities.loadData("refresh_token");
+
+        if (!refresh || typeof refresh !== "string") {
+            console.warn("No se encontró el refresh_token en LocalStorage");
+            return "";
+        }
+
+        return refresh;
     }
+
 
     getHeaders() {
         return {
@@ -36,6 +51,7 @@ export class Requester {
 
             const tokenJson = await response.json();
             Utilities.saveData("access_token", tokenJson.access_token);
+            console.log("Token refrescado")
             return true;
         } catch (error) {
             console.error("Error refrescando token:", error);
@@ -49,9 +65,10 @@ export class Requester {
             headers: this.getHeaders()
         });
 
-        if (response.status === 401 && refreshRetries < this.MAX_REFRESH_RETRIES) {
+        if (response.status === 401 && refreshRetries <= this.MAX_REFRESH_RETRIES) {
             const refreshed = await this.refreshToken();
             if (refreshed) return this.get<T>(endpoint, refreshRetries + 1);
+
             throw new Error("Error en reautenticación, token inválido o expirado");
         }
 
@@ -75,7 +92,11 @@ export class Requester {
         if (response.status === 401 && refreshRetries < this.MAX_REFRESH_RETRIES) {
             const refreshed = await this.refreshToken();
             if (refreshed) return this.post(endpoint, body, refreshRetries + 1);
+              
+              Utilities.throwNotification("La sesion expiro",false,5000)
+              
             throw new Error("Error en reautenticación, token inválido o expirado");
+            
         }
         if (!response.ok) {
             throw new Error(`Error en POST ${endpoint}, ${body}: ${response.status} ${response.statusText}`);
@@ -84,7 +105,7 @@ export class Requester {
         const data: T = await response.json();
         return data;
 
-        
+
     }
 
     async put<T>(endpoint: string, body: string, refreshRetries: number = 0, token: boolean = true): Promise<T> {

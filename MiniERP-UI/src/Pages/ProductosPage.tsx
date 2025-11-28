@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { ProductsService } from "../ClassesAndUtilities/ProductsService";
 import type { Product } from "../ClassesAndUtilities/ProductsService";
-import type { User } from "../Types/User";
 
-interface ProductosPageProps {
-    currentUser: User | null;
-}
 
-export const ProductosPage = ({ currentUser }: ProductosPageProps) => {
+export const ProductosPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
