@@ -1,9 +1,6 @@
-
 import Utilities from "./Utilities"
 
-
 export class Requester {
-
     BASE_URL: string = "https://minierp.rbnetto.dev/api"
     TOKEN_ENDPOINT: string = "/token/"
     TOKEN_REFRESH_ENDPOINT: string = "/token/refresh/"
@@ -29,7 +26,6 @@ export class Requester {
 
         return refresh;
     }
-
 
     getHeaders() {
         return {
@@ -68,7 +64,6 @@ export class Requester {
         if (response.status === 401 && refreshRetries <= this.MAX_REFRESH_RETRIES) {
             const refreshed = await this.refreshToken();
             if (refreshed) return this.get<T>(endpoint, refreshRetries + 1);
-
             throw new Error("Error en reautenticación, token inválido o expirado");
         }
 
@@ -79,8 +74,6 @@ export class Requester {
         const data: T = await response.json();
         return data;
     }
-
-
 
     async post<T>(endpoint: string, body: string, refreshRetries: number = 0, token: boolean = true): Promise<T> {
         const response = await fetch(this.BASE_URL + endpoint, {
@@ -104,8 +97,6 @@ export class Requester {
 
         const data: T = await response.json();
         return data;
-
-
     }
 
     async put<T>(endpoint: string, body: string, refreshRetries: number = 0, token: boolean = true): Promise<T> {
@@ -126,6 +117,7 @@ export class Requester {
 
         const data: T = await response.json();
         return data;
+        
     }
     async delete(endpoint: string, refreshRetries: number = 0): Promise<boolean> {
         const response = await fetch(this.BASE_URL + endpoint, {

@@ -36,7 +36,7 @@ function throwNotification(text:string, success:boolean, duration:number = 3000)
     }, duration);
 }
 // Export
-export default { getDOMElement, createDOMElement, saveData, loadData,throwNotification };
+export default { getDOMElement, createDOMElement, saveData, loadData, throwNotification };
 
 // function addData(key: string, data: string) {
 //     let collection = loadData(key);

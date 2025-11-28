@@ -37,18 +37,17 @@ export class ProductsService {
         return await requester.post<Product>(`/inventory/products/`, body);
     }
 
-static async deleteProduct(id: number): Promise<void> {
-    try {
-        const success = await requester.delete(`/inventory/products/${id}/`);
-        if (success) {
-            Utilities.throwNotification("Producto eliminado correctamente", true, 3000);
-        } else {
+    static async deleteProduct(id: number): Promise<void> {
+        try {
+            const success = await requester.delete(`/inventory/products/${id}/`);
+            if (success) {
+                Utilities.throwNotification("Producto eliminado correctamente", true, 3000);
+            } else {
+                Utilities.throwNotification("Error al eliminar el producto", false, 3000);
+            }
+        } catch (error) {
+            console.error(error);
             Utilities.throwNotification("Error al eliminar el producto", false, 3000);
         }
-    } catch (error) {
-        console.error(error);
-        Utilities.throwNotification("Error al eliminar el producto", false, 3000);
     }
-}
-
 }

@@ -4,8 +4,6 @@ import Utilities from "./Utilities";
 
 const requester = new Requester();
 
-
-
 export class CustomersService {
     static async listCustomers(): Promise<Customer[]> {
         const response = await requester.get<any>("/sales/customers/");
