@@ -8,6 +8,7 @@ import { useState } from "react";
 type LoginPanelProps = {
   setCurrentUser: (u: User) => void
 }
+
 function LoginPanel({ setCurrentUser }: LoginPanelProps) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -23,7 +24,6 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
       setLoading(true)
       const response = await requester.post<LoginResponse>("/users/users/login/", JSON.stringify(body), undefined, false);
       setLoading(false)
-      //mandamos el accesstoken y refreshtoken al localst
       Utilities.saveData("access_token", response.access_token)
       Utilities.saveData("refresh_token", response.refresh_token)
       Utilities.saveData("current_user", response.user)
@@ -35,7 +35,7 @@ function LoginPanel({ setCurrentUser }: LoginPanelProps) {
       setLoading(false)
     }
   }
-  if(loading) return<div className="min-h-screen flex items-center justify-center bg-lilaClaro text-black font-arimo text-xl">Iniciando Sesion... Por favor espere</div>
+  if(loading) return<div className="min-h-screen flex items-center justify-center bg-lilaClaro text-black font-arimo text-xl">Iniciando sesión...</div>
   return (
     <div className="min-h-screen flex items-center justify-center bg-lila">
       <div className="bg-menta px-8 py-10 rounded-xl shadow-xl w-full max-w-md">

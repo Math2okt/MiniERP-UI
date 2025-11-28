@@ -10,7 +10,7 @@ type NavbarProps = {
 function Navbar({ currentUser, logOut }: NavbarProps) {
   return (
     <nav className="w-full bg-lila shadow-md px-6 py-3 flex items-center justify-between">
-      <h2 className="font-arimo font-bold text slate-800">Bienvenido al sistema {currentUser ? currentUser.full_name : ""} !</h2>
+      <h2 className="font-arimo font-bold text slate-800">Bienvenido al sistema {currentUser ? currentUser.full_name : ""}!</h2>
       <div className="flex items-center gap-7 text-slate-800">
         <Link className="hover:underline" to="/productos">Productos</Link> 
         <Link className="hover:underline" to="/clientes">Clientes</Link>
